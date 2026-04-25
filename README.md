@@ -139,22 +139,24 @@ Devuelve estado + intercambio completo + puntuaciones + errores + advice.
 
 ## Despliegue en EasyPanel (Dockerfile)
 
-Configura **2 apps** desde el mismo repo:
+Si necesitas **una sola app** en EasyPanel, usa solo:
 
-1. **API Bun**
-   - Dockerfile path: `Dockerfile` (también sirve `Dockerfile.api`)
-   - Puerto contenedor: `8000`
-   - Variables: las del `.env.example` (`PORT=8000` recomendado para el panel)
+- Dockerfile path: `Dockerfile`
+- Puerto contenedor: `8080`
 
-2. **Frontend Next**
-   - Dockerfile path recomendado: `Dockerfile.frontend` (si EasyPanel builda desde raiz)
-   - Alternativa: `frontend/Dockerfile` con build context `frontend`
-   - Puerto contenedor: `3000`
-   - Variable obligatoria: `NEXT_PUBLIC_API_URL=https://TU-API` (URL publica de la app API)
+Este contenedor levanta:
+- API Bun en `:8000` (interno)
+- Frontend Next en `:3000` (interno)
+- Caddy en `:8080` (publico): enruta `/api*` y `/health` a la API, y el resto al frontend.
+
+Variables recomendadas:
+- `PORT=8000` (API interna)
+- `FRONTEND_URL=https://TU-DOMINIO` (dominio publico final)
+- `NEXT_PUBLIC_API_URL` puede ir vacia (usa mismo dominio por defecto)
 
 Notas:
-- `FRONTEND_URL` (en la API) debe apuntar a la URL publica del frontend para redirecciones.
 - En EasyPanel usa Auto Deploy contra `main` para publicar en cada push.
+- Si prefieres separar servicios, siguen disponibles `Dockerfile.api` y `Dockerfile.frontend`.
 
 ## Siguiente mejora recomendada
 

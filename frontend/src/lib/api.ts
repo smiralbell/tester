@@ -1,6 +1,9 @@
 /** Debe coincidir con `PORT` del microservicio Bun (README suele usar 8000). */
 export function getApiBaseUrl(): string {
-  return (process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000").replace(/\/$/, "");
+  const envUrl = process.env.NEXT_PUBLIC_API_URL?.trim();
+  if (envUrl) return envUrl.replace(/\/$/, "");
+  if (typeof window !== "undefined") return window.location.origin;
+  return "http://localhost:8000";
 }
 
 export async function apiJson<T>(
