@@ -137,13 +137,23 @@ Devuelve estado + intercambio completo + puntuaciones + errores + advice.
 - `GET /health` valida conexión real con Postgres.
 - Middleware opcional de seguridad por `x-api-key` (`INTERNAL_API_KEY`).
 
-## Despliegue en EasyPanel
+## Despliegue en EasyPanel (Dockerfile)
 
-- Runtime: Bun
-- Build command: `bun install`
-- Start command: `bun run start`
-- Variables: las del `.env.example`
-- Puerto expuesto: `PORT` (por defecto 3001)
+Configura **2 apps** desde el mismo repo:
+
+1. **API Bun**
+   - Dockerfile path: `Dockerfile.api`
+   - Puerto contenedor: `8000`
+   - Variables: las del `.env.example` (`PORT=8000` recomendado para el panel)
+
+2. **Frontend Next**
+   - Dockerfile path: `frontend/Dockerfile`
+   - Puerto contenedor: `3000`
+   - Variable obligatoria: `NEXT_PUBLIC_API_URL=https://TU-API` (URL publica de la app API)
+
+Notas:
+- `FRONTEND_URL` (en la API) debe apuntar a la URL publica del frontend para redirecciones.
+- En EasyPanel usa Auto Deploy contra `main` para publicar en cada push.
 
 ## Siguiente mejora recomendada
 
