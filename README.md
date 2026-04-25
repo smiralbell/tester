@@ -142,12 +142,13 @@ Devuelve estado + intercambio completo + puntuaciones + errores + advice.
 Configura **2 apps** desde el mismo repo:
 
 1. **API Bun**
-   - Dockerfile path: `Dockerfile.api`
+   - Dockerfile path: `Dockerfile` (también sirve `Dockerfile.api`)
    - Puerto contenedor: `8000`
    - Variables: las del `.env.example` (`PORT=8000` recomendado para el panel)
 
 2. **Frontend Next**
-   - Dockerfile path: `frontend/Dockerfile`
+   - Dockerfile path recomendado: `Dockerfile.frontend` (si EasyPanel builda desde raiz)
+   - Alternativa: `frontend/Dockerfile` con build context `frontend`
    - Puerto contenedor: `3000`
    - Variable obligatoria: `NEXT_PUBLIC_API_URL=https://TU-API` (URL publica de la app API)
 

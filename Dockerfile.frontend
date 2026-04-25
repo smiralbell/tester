@@ -1,0 +1,16 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Install frontend dependencies first for layer caching.
+COPY frontend/package.json frontend/package-lock.json ./
+RUN npm ci
+
+# Copy frontend sources from monorepo root context.
+COPY frontend ./
+
+RUN npm run build
+
+EXPOSE 3000
+
+CMD ["npm", "run", "start"]
